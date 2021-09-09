@@ -4,22 +4,27 @@ import SingleTask from './SingleTask'
 export interface Task {  
     id: number;
     text: string;
-    day: string;
+    dateNTime: string;
     reminder: boolean;
 }
 
-
-interface TasksProps<Type>{
-  tasks: Type[]
+export interface Actions {
   deleteTask(id:number): void
+  toggleReminder(id:number): void
 }
 
-const Tasks:React.FC<TasksProps<Task>> = ({tasks, deleteTask}) => {
+interface TasksProps<Type> extends Actions{
+  tasks: Type[]
+  // deleteTask(id:number): void
+  // toggleReminder(id:number): void
+}
+
+const Tasks:React.FC<TasksProps<Task>> = ({tasks, deleteTask, toggleReminder}) => {
 
   return (
     <Fragment>
       {tasks.map(task => (
-        <SingleTask key={task.id} singleTask={task} deleteTask={deleteTask}/>
+        <SingleTask key={task.id} singleTask={task} deleteTask={deleteTask} toggleReminder={toggleReminder}/>
       ))}
     </Fragment>
   )

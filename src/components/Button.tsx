@@ -17,8 +17,4 @@ const Button:React.FC<ButtonProps> = ({color, text, clickHandler}) => {
   )
 }
 
-Button.defaultProps = {
-  color: 'steelblue'
-}
-
 export default Button
