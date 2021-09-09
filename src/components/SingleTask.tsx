@@ -5,7 +5,6 @@ import {Task, Actions} from './Tasks'
 interface STProp extends Actions{
   key: number;
   singleTask: Task;
-  deleteTask(id:number): void;
 }
 
 const SingleTask:React.FC<STProp> = ({singleTask, deleteTask, toggleReminder}) => {
