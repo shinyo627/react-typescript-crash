@@ -1,10 +1,7 @@
 import {Link} from 'react-router-dom'
 
-interface Props {
-  
-}
 
-const About = (props: Props) => {
+const About:React.FC = () => {
   return (
     <div>
       <h4>Version 1.0.0</h4>

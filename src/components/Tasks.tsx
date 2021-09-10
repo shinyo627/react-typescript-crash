@@ -1,22 +1,11 @@
 import { Fragment } from 'react'
+import { Task, Actions } from '../ts/interfaces'
+
 import SingleTask from './SingleTask'
 
-export interface Task {  
-    id: number;
-    text: string;
-    dateNTime: string;
-    reminder: boolean;
-}
 
-export interface Actions {
-  deleteTask(id:number): void
-  toggleReminder(id:number): void
-}
-
-interface TasksProps<Type> extends Actions{
-  tasks: Type[]
-  // deleteTask(id:number): void
-  // toggleReminder(id:number): void
+interface TasksProps<Task> extends Actions{
+  tasks: Task[]
 }
 
 const Tasks:React.FC<TasksProps<Task>> = ({tasks, deleteTask, toggleReminder}) => {

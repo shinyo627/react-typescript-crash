@@ -1,13 +1,13 @@
 import {FaTimes} from 'react-icons/fa'
-import {Task, Actions} from './Tasks'
+import {Task, Actions} from '../ts/interfaces'
 
 
-interface STProp extends Actions{
+interface SingleTaskProps extends Actions{
   key: number;
   singleTask: Task;
 }
 
-const SingleTask:React.FC<STProp> = ({singleTask, deleteTask, toggleReminder}) => {
+const SingleTask:React.FC<SingleTaskProps> = ({singleTask, deleteTask, toggleReminder}) => {
   const {id, text, dateNTime, reminder} = singleTask
 
   return (

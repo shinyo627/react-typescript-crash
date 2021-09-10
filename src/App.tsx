@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { fetchTasks, fetchTask, deleteTaskApi, addTaskApi} from './api/taskApi'
 
-import {Task} from './components/Tasks'
+import { Task } from './ts/interfaces'
 import Header from './components/Header'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
@@ -13,7 +14,7 @@ const [showAddTask, setShowAddTask] = useState(false)
 const [tasks, setTasks] = useState<Task[] | []>([])
 
 useEffect(() => {
-  const getTasks = async() => {
+  const getTasks = async():Promise<void> => {
     const tasksFromServer = await fetchTasks()
     setTasks(tasksFromServer)
   }
@@ -21,58 +22,20 @@ useEffect(() => {
   getTasks()
 }, [])
 
-// Fetch tasks
-const fetchTasks = async(): Promise<Task[]> => {
-  const res = await fetch('http://localhost:5000/tasks')
-
-  const data = await res.json() as Task[]
-
-  return data
-}
-
-// Fetch task
-const fetchTask = async(id: number): Promise<Task> => {
-  const res = await fetch(`http://localhost:5000/tasks/${id}`)
-
-  const data = await res.json() as Task
-
-  return data
-}
-
-
 const addTask = async({task: text, dateNTime, reminder}: {task: string; dateNTime: string; reminder: boolean;}):Promise<void> => {
-   const id = Math.floor(Math.random() * 10000) + 1
-   const newTask = { id, text, dateNTime, reminder};
-
-  const res = await fetch(`http://localhost:5000/tasks`, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify(newTask)
-  })
-
-  const data = await res.json()
-
-  setTasks([...tasks, data])
-  
-  // const id = Math.floor(Math.random() * 10000) + 1
-  // const newTask = { id, text, dateNTime, reminder};
-
-  // setTasks([...tasks, newTask])
+  const newTask = await addTaskApi({text, dateNTime, reminder})
+  setTasks([...tasks, newTask])
 }
 
 const deleteTask = async(id: number): Promise<void> => {
-  await fetch(`http//localhost:5000/tasks/${id}`, {
-    method: 'DELETE'
-  })
+  await deleteTaskApi(id)
 
   setTasks(tasks.filter((task) => task.id !== id))
 }
 
 const toggleReminder = async(id: number): Promise<void> => {
-  const taskToggle = await fetchTask(id)
-  const updatedTask = { ...taskToggle, reminder: !taskToggle.reminder };
+  const taskForToggle = await fetchTask(id)
+  const updatedTask = { ...taskForToggle, reminder: !taskForToggle.reminder };
 
   const res = await fetch(`http://localhost:5000/tasks/${id}`, {
     method: 'PUT',

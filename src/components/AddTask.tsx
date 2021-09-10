@@ -11,6 +11,16 @@ const AddTask: React.FC<AddTaskProp> = ({addTask}) => {
     reminder: false,
   })
 
+ const onChangeHanlder: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+   console.log(e.target)
+   if(e.target.checked) {
+     console.log(e.target.checked)
+    setFormData({...formData, [e.target.name]: e.target.checked})
+   } else {
+    setFormData({...formData, [e.target.name]: e.target.value})
+   }
+ }
+
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     const {task, dateNTime} = formData
     e.preventDefault()
@@ -34,7 +44,7 @@ const AddTask: React.FC<AddTaskProp> = ({addTask}) => {
         placeholder='Add Task'
         name='task'
         value={formData.task} 
-        onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})}/>
+        onChange={onChangeHanlder} />
       </div>
 
       <div className="">
@@ -44,7 +54,7 @@ const AddTask: React.FC<AddTaskProp> = ({addTask}) => {
         placeholder='Add Day n Time'
         name='dateNTime'
         value={formData.dateNTime}
-        onChange={(e) => setFormData({...formData, [e.target.name]: e.target.value})} />
+        onChange={onChangeHanlder} />
       </div>
 
       <div className="">
@@ -53,7 +63,7 @@ const AddTask: React.FC<AddTaskProp> = ({addTask}) => {
         type="checkbox"
         name='reminder'
         checked={formData.reminder}
-        onChange={(e) => {setFormData({...formData, [e.target.name]: e.target.checked})}}
+        onChange={onChangeHanlder}
         />
       </div>
 
